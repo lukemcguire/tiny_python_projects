@@ -29,41 +29,45 @@ def get_args() -> Args:
     """Get arguments"""
 
     parser = argparse.ArgumentParser(
-        description='Create Python argparse program',
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        description="Create Python argparse program",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
 
     defaults = get_defaults()
-    username = os.getenv('USER') or 'Anonymous'
-    hostname = os.getenv('HOSTNAME') or 'localhost'
+    username = os.getenv("USER") or "Luke McGuire"
+    email = "luke.mcguire@gmail.com"
 
-    parser.add_argument('program', help='Program name', type=str)
+    parser.add_argument("program", help="Program name", type=str)
 
-    parser.add_argument('-n',
-                        '--name',
-                        type=str,
-                        default=defaults.get('name', username),
-                        help='Name for docstring')
+    parser.add_argument(
+        "-n",
+        "--name",
+        type=str,
+        default=defaults.get("name", username),
+        help="Name for docstring",
+    )
 
-    parser.add_argument('-e',
-                        '--email',
-                        type=str,
-                        default=defaults.get('email', f'{username}@{hostname}'),
-                        help='Email for docstring')
+    parser.add_argument(
+        "-e",
+        "--email",
+        type=str,
+        default=defaults.get("email", email),
+        help="Email for docstring",
+    )
 
-    parser.add_argument('-p',
-                        '--purpose',
-                        type=str,
-                        default=defaults.get('purpose', 'Rock the Casbah'),
-                        help='Purpose for docstring')
+    parser.add_argument(
+        "-p",
+        "--purpose",
+        type=str,
+        default=defaults.get("purpose", "Rock the Casbah"),
+        help="Purpose for docstring",
+    )
 
-    parser.add_argument('-f',
-                        '--force',
-                        help='Overwrite existing',
-                        action='store_true')
+    parser.add_argument("-f", "--force", help="Overwrite existing", action="store_true")
 
     args = parser.parse_args()
 
-    args.program = args.program.strip().replace('-', '_')
+    args.program = args.program.strip().replace("-", "_")
 
     if not args.program:
         parser.error(f'Not a usable filename "{args.program}"')
@@ -80,20 +84,20 @@ def main() -> None:
 
     if os.path.isfile(program) and not args.overwrite:
         answer = input(f'"{program}" exists.  Overwrite? [yN] ')
-        if not answer.lower().startswith('y'):
-            sys.exit('Will not overwrite. Bye!')
+        if not answer.lower().startswith("y"):
+            sys.exit("Will not overwrite. Bye!")
 
-    print(body(args), file=open(program, 'wt'), end='')
+    print(body(args), file=open(program, "wt"), end="")
 
-    if platform.system() != 'Windows':
-        subprocess.run(['chmod', '+x', program], check=True)
+    if platform.system() != "Windows":
+        subprocess.run(["chmod", "+x", program], check=True)
 
     print(f'Done, see new script "{program}."')
 
 
 # --------------------------------------------------
 def body(args: Args) -> str:
-    """ The program template """
+    """The program template"""
 
     today = str(date.today())
 
@@ -176,11 +180,11 @@ if __name__ == '__main__':
 def get_defaults():
     """Get defaults from ~/.new.py"""
 
-    rc = os.path.join(str(Path.home()), '.new.py')
+    rc = os.path.join(str(Path.home()), ".new.py")
     defaults = {}
     if os.path.isfile(rc):
         for line in open(rc):
-            match = re.match('([^=]+)=([^=]+)', line)
+            match = re.match("([^=]+)=([^=]+)", line)
             if match:
                 key, val = map(str.strip, match.groups())
                 if key and val:
@@ -190,5 +194,5 @@ def get_defaults():
 
 
 # --------------------------------------------------
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
