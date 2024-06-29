@@ -5,8 +5,8 @@ import re
 import os
 from subprocess import getstatusoutput, getoutput
 
-prg = './apples.py'
-fox = '../inputs/fox.txt'
+prg = "./apples.py"
+fox = "../inputs/fox.txt"
 
 
 # --------------------------------------------------
@@ -20,8 +20,8 @@ def test_exists():
 def test_usage():
     """usage"""
 
-    for flag in ['-h', '--help']:
-        rv, out = getstatusoutput(f'{prg} {flag}')
+    for flag in ["-h", "--help"]:
+        rv, out = getstatusoutput(f"python3 {prg} {flag}")
         assert rv == 0
         assert re.match("usage", out, re.IGNORECASE)
 
@@ -30,46 +30,46 @@ def test_usage():
 def test_bad_vowel():
     """Should fail on a bad vowel"""
 
-    rv, out = getstatusoutput(f'{prg} -v x foo')
+    rv, out = getstatusoutput(f"python3 {prg} -v x foo")
     assert rv != 0
     assert re.match("usage", out, re.IGNORECASE)
 
 
 # --------------------------------------------------
 def test_command_line():
-    """ foo -> faa """
+    """foo -> faa"""
 
-    out = getoutput(f'{prg} foo')
-    assert out.strip() == 'faa'
+    out = getoutput(f"python3 {prg} foo")
+    assert out.strip() == "faa"
 
 
 # --------------------------------------------------
 def test_command_line_with_vowel():
-    """ foo -> fii """
+    """foo -> fii"""
 
-    out = getoutput(f'{prg} -v i foo')
-    assert out.strip() == 'fii'
+    out = getoutput(f"python3 {prg} -v i foo")
+    assert out.strip() == "fii"
 
 
 # --------------------------------------------------
 def test_command_line_with_vowel_preserve_case():
-    """ foo -> fii """
+    """foo -> fii"""
 
-    out = getoutput(f'{prg} "APPLES AND BANANAS" --vowel i')
-    assert out.strip() == 'IPPLIS IND BININIS'
+    out = getoutput(f'python3 {prg} "APPLES AND BANANAS" --vowel i')
+    assert out.strip() == "IPPLIS IND BININIS"
 
 
 # --------------------------------------------------
 def test_file():
-    """ fox.txt """
+    """fox.txt"""
 
-    out = getoutput(f'{prg} {fox}')
-    assert out.strip() == 'Tha qaack brawn fax jamps avar tha lazy dag.'
+    out = getoutput(f"python3 {prg} {fox}")
+    assert out.strip() == "Tha qaack brawn fax jamps avar tha lazy dag."
 
 
 # --------------------------------------------------
 def test_file_with_vowel():
-    """ fox.txt """
+    """fox.txt"""
 
-    out = getoutput(f'{prg} --vowel o {fox}')
-    assert out.strip() == 'Tho qoock brown fox jomps ovor tho lozy dog.'
+    out = getoutput(f"python3 {prg} --vowel o {fox}")
+    assert out.strip() == "Tho qoock brown fox jomps ovor tho lozy dog."
