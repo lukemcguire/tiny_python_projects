@@ -5,22 +5,22 @@ import os
 import re
 from subprocess import getstatusoutput, getoutput
 
-prg = './friar.py'
+PRG = "./friar.py"
 
 
 # --------------------------------------------------
 def test_exists():
     """exists"""
 
-    assert os.path.isfile(prg)
+    assert os.path.isfile(PRG)
 
 
 # --------------------------------------------------
 def test_usage():
     """usage"""
 
-    for flag in ['-h', '--help']:
-        rv, out = getstatusoutput(f'{prg} {flag}')
+    for flag in ["-h", "--help"]:
+        rv, out = getstatusoutput(f"python {PRG} {flag}")
         assert rv == 0
         assert re.match("usage", out, re.IGNORECASE)
 
@@ -31,7 +31,7 @@ def test_two_syllable_ing_words():
 
     tests = [("cooking", "cookin'"), ("Fishing", "Fishin'")]
     for given, expected in tests:
-        out = getoutput(f'{prg} {given}')
+        out = getoutput(f"python {PRG} {given}")
         assert out.strip() == expected.strip()
 
 
@@ -41,7 +41,7 @@ def test_one_syllable_ing_words():
 
     tests = [("sing", "sing"), ("Fling", "Fling")]
     for given, expected in tests:
-        out = getoutput(f'{prg} {given}')
+        out = getoutput(f"python {PRG} {given}")
         assert out.strip() == expected.strip()
 
 
@@ -51,7 +51,7 @@ def test_you_yall():
 
     tests = [("you", "y'all"), ("You", "Y'all")]
     for given, expected in tests:
-        out = getoutput(f'{prg} {given}')
+        out = getoutput(f"python {PRG} {given}")
         assert out.strip() == expected.strip()
 
 
@@ -60,12 +60,12 @@ def run_file(file):
     """run with file"""
 
     assert os.path.isfile(file)
-    expected_file = file + '.out'
+    expected_file = file + ".out"
 
     assert os.path.isfile(expected_file)
     expected = open(expected_file).read()
 
-    out = getoutput(f'{prg} {file}')
+    out = getoutput(f"python {PRG} {file}")
     assert out.strip() == expected.strip()
 
 
@@ -73,32 +73,32 @@ def run_file(file):
 def test_blake():
     """blake"""
 
-    run_file('inputs/blake.txt')
+    run_file("inputs/blake.txt")
 
 
 # --------------------------------------------------
 def test_banner():
     """banner"""
 
-    run_file('inputs/banner.txt')
+    run_file("inputs/banner.txt")
 
 
 # --------------------------------------------------
 def test_raven():
     """raven"""
 
-    run_file('inputs/raven.txt')
+    run_file("inputs/raven.txt")
 
 
 # --------------------------------------------------
 def test_dickinson():
     """dickinson"""
 
-    run_file('inputs/dickinson.txt')
+    run_file("inputs/dickinson.txt")
 
 
 # --------------------------------------------------
 def test_shakespeare():
     """shakespeare"""
 
-    run_file('inputs/shakespeare.txt')
+    run_file("inputs/shakespeare.txt")
