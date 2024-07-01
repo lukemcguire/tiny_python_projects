@@ -7,11 +7,11 @@ import random
 import string
 from subprocess import getstatusoutput
 
-prg = './mad.py'
-no_blanks = 'inputs/no_blanks.txt'
-fox = 'inputs/fox.txt'
-hlp = 'inputs/help.txt'
-verona = 'inputs/romeo_juliet.txt'
+prg = "./mad.py"
+no_blanks = "inputs/no_blanks.txt"
+fox = "inputs/fox.txt"
+hlp = "inputs/help.txt"
+verona = "inputs/romeo_juliet.txt"
 
 
 # --------------------------------------------------
@@ -25,10 +25,10 @@ def test_exists():
 def test_usage():
     """usage"""
 
-    for flag in ['-h', '--help']:
-        rv, out = getstatusoutput(f'{prg} {flag}')
+    for flag in ["-h", "--help"]:
+        rv, out = getstatusoutput(f"python {prg} {flag}")
         assert rv == 0
-        assert out.lower().startswith('usage')
+        assert out.lower().startswith("usage")
 
 
 # --------------------------------------------------
@@ -36,7 +36,7 @@ def test_bad_file():
     """Test bad input file"""
 
     bad = random_string()
-    rv, out = getstatusoutput(f'{prg} {bad}')
+    rv, out = getstatusoutput(f"python {prg} {bad}")
     assert rv != 0
     assert re.search(f"No such file or directory: '{bad}'", out)
 
@@ -45,7 +45,7 @@ def test_bad_file():
 def test_no_blanks():
     """Test no blanks"""
 
-    rv, out = getstatusoutput(f'{prg} {no_blanks}')
+    rv, out = getstatusoutput(f"python {prg} {no_blanks}")
     assert rv != 0
     assert out == f'"{no_blanks}" has no placeholders.'
 
@@ -54,10 +54,10 @@ def test_no_blanks():
 def test_fox():
     """test fox"""
 
-    args = f'{fox} -i surly car under bicycle'
-    rv, out = getstatusoutput(f'{prg} {args}')
+    args = f"{fox} -i surly car under bicycle"
+    rv, out = getstatusoutput(f"python {prg} {args}")
     assert rv == 0
-    assert out.strip() == 'The quick surly car jumps under the lazy bicycle.'
+    assert out.strip() == "The quick surly car jumps under the lazy bicycle."
 
 
 # --------------------------------------------------
@@ -71,8 +71,8 @@ Hola! You know I need queso!
 Arriba!
     """.strip()
 
-    args = f'{hlp} -i Hey tacos Oi salsa Hola queso Arriba'
-    rv, out = getstatusoutput(f'{prg} {args}')
+    args = f"{hlp} -i Hey tacos Oi salsa Hola queso Arriba"
+    rv, out = getstatusoutput(f"python {prg} {args}")
     assert rv == 0
     assert out.strip() == expected.strip()
 
@@ -98,9 +98,11 @@ The which if you with patient foot attend,
 What here shall hammer, our toil shall strive to mend.
     """.strip()
 
-    args = (f'{verona} --inputs cars Detroit oil pistons '
-            '"stick shift" furious accelerate 42 foot hammer')
-    rv, out = getstatusoutput(f'{prg} {args}')
+    args = (
+        f"{verona} --inputs cars Detroit oil pistons "
+        '"stick shift" furious accelerate 42 foot hammer'
+    )
+    rv, out = getstatusoutput(f"python {prg} {args}")
     assert rv == 0
     assert out.strip() == expected.strip()
 
@@ -110,4 +112,4 @@ def random_string():
     """generate a random string"""
 
     k = random.randint(5, 10)
-    return ''.join(random.choices(string.ascii_letters + string.digits, k=k))
+    return "".join(random.choices(string.ascii_letters + string.digits, k=k))
