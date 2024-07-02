@@ -7,26 +7,26 @@ import re
 import string
 from subprocess import getstatusoutput
 
-prg = './wod.py'
-input1 = 'inputs/exercises.csv'
-input2 = 'inputs/silly-exercises.csv'
+PRG = "./wod.py"
+INPUT_1 = "inputs/exercises.csv"
+INPUT_2 = "inputs/silly-exercises.csv"
 
 
 # --------------------------------------------------
 def test_exists():
     """exists"""
 
-    assert os.path.isfile(prg)
+    assert os.path.isfile(PRG)
 
 
 # --------------------------------------------------
 def test_usage():
     """usage"""
 
-    for flag in ['-h', '--help']:
-        rv, out = getstatusoutput(f'{prg} {flag}')
+    for flag in ["-h", "--help"]:
+        rv, out = getstatusoutput(f"python {PRG} {flag}")
         assert rv == 0
-        assert out.lower().startswith('usage')
+        assert out.lower().startswith("usage")
 
 
 # --------------------------------------------------
@@ -34,7 +34,7 @@ def test_bad_num():
     """Dies on bad --num"""
 
     bad = random.choice(range(-10, 0))
-    rv, out = getstatusoutput(f'{prg} -n {bad}')
+    rv, out = getstatusoutput(f"python {PRG} -n {bad}")
     assert rv != 0
     assert re.search(f'--num "{bad}" must be greater than 0', out)
 
@@ -44,7 +44,7 @@ def test_bad_file():
     """Dies on bad file"""
 
     bad = random_string()
-    rv, out = getstatusoutput(f'{prg} -f {bad}')
+    rv, out = getstatusoutput(f"python {PRG} -f {bad}")
     assert rv != 0
     assert re.search(f"No such file or directory: '{bad}'", out)
 
@@ -62,8 +62,8 @@ Crunches        27
 Burpees         35
 """
 
-    seed_flag = '-s' if random.choice([0, 1]) else '--seed'
-    rv, out = getstatusoutput(f'{prg} {seed_flag} 1')
+    seed_flag = "-s" if random.choice([0, 1]) else "--seed"
+    rv, out = getstatusoutput(f"python {PRG} {seed_flag} 1")
     assert rv == 0
     assert out.strip() == expected.strip()
 
@@ -81,9 +81,9 @@ Crunches        13
 Burpees         17
 """
 
-    seed_flag = '-s' if random.choice([0, 1]) else '--seed'
-    easy_flag = '-e' if random.choice([0, 1]) else '--easy'
-    rv, out = getstatusoutput(f'{prg} {easy_flag} {seed_flag} 1')
+    seed_flag = "-s" if random.choice([0, 1]) else "--seed"
+    easy_flag = "-e" if random.choice([0, 1]) else "--easy"
+    rv, out = getstatusoutput(f"python {PRG} {easy_flag} {seed_flag} 1")
     assert rv == 0
     assert out.strip() == expected.strip()
 
@@ -105,9 +105,9 @@ Pullups                 30
 Lunges                  32
 """
 
-    seed_flag = '-s' if random.choice([0, 1]) else '--seed'
-    num_flag = '-n' if random.choice([0, 1]) else '--num'
-    cmd = f'{prg} {num_flag} 8 {seed_flag} 2 -f {input1}'
+    seed_flag = "-s" if random.choice([0, 1]) else "--seed"
+    num_flag = "-n" if random.choice([0, 1]) else "--num"
+    cmd = f"python {PRG} {num_flag} 8 {seed_flag} 2 -f {INPUT_1}"
     rv, out = getstatusoutput(cmd)
     assert rv == 0
     assert out.strip() == expected.strip()
@@ -125,9 +125,9 @@ Red Barchettas         50
 Squatting Chinups      35
 """
 
-    seed_flag = '-s' if random.choice([0, 1]) else '--seed'
-    num_flag = '-n' if random.choice([0, 1]) else '--num'
-    rv, out = getstatusoutput(f'{prg} {num_flag} 3 {seed_flag} 4 -f {input2}')
+    seed_flag = "-s" if random.choice([0, 1]) else "--seed"
+    num_flag = "-n" if random.choice([0, 1]) else "--num"
+    rv, out = getstatusoutput(f"python {PRG} {num_flag} 3 {seed_flag} 4 -f {INPUT_2}")
     assert rv == 0
     assert out.strip() == expected.strip()
 
@@ -137,4 +137,4 @@ def random_string():
     """generate a random string"""
 
     k = random.randint(5, 10)
-    return ''.join(random.choices(string.ascii_letters + string.digits, k=k))
+    return "".join(random.choices(string.ascii_letters + string.digits, k=k))
